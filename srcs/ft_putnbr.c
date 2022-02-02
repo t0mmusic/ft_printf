@@ -6,7 +6,7 @@
 /*   By: jbrown <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 09:06:40 by jbrown            #+#    #+#             */
-/*   Updated: 2022/02/01 16:44:22 by jbrown           ###   ########.fr       */
+/*   Updated: 2022/02/02 14:03:42 by jbrown           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,19 +24,59 @@ void	ft_putnbr(size_t n)
 		ft_putchar_fd(n + 48, 1);
 }
 
-int	negcheck(long long int n, int count)
+int	nbrcount(size_t n, int radix)
 {
+	int	count;
+
+	count = 0;
+	while (n > 0)
+	{
+		n /= radix;
+		count++;
+	}
+	return (count);
+}
+
+int	hexprint(unsigned int hex, int up)
+{
+	int	count;
+
+	count = nbrcount(hex, 16);
+	if (up == 2)
+	{
+		ft_putstr_fd("0x", 1);
+		count += 2;
+		up = 0;
+	}
+	if (hex >= 16)
+	{
+		hexprint(hex / 16, up);
+		hexprint(hex % 16, up);
+	}
+	else
+	{
+		if (hex < 10)
+			ft_putchar_fd(hex + 48, 1);
+		else if (!up)
+			ft_putchar_fd(hex + 87, 1);
+		else
+			ft_putchar_fd(hex + 55, 1);
+	}
+	return (count);
+}
+
+int	negcheck(long long int n)
+{
+	int	count;
+
+	count = 0;
 	if (n < 0)
 	{
 		ft_putchar_fd('-', 1);
 		n = -n;
-		count += 1;
-	}
-	ft_putnbr(n);
-	while (n > 0)
-	{
-		n /= 10;
 		count++;
 	}
+	ft_putnbr(n);
+	count += nbrcount(n, 10);
 	return (count);
 }
