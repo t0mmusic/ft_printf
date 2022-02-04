@@ -6,7 +6,7 @@
 /*   By: jbrown <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 09:06:40 by jbrown            #+#    #+#             */
-/*   Updated: 2022/02/02 14:03:42 by jbrown           ###   ########.fr       */
+/*   Updated: 2022/02/04 14:00:04 by jbrown           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ int	nbrcount(size_t n, int radix)
 {
 	int	count;
 
+	if (!n)
+		return (1);
 	count = 0;
 	while (n > 0)
 	{
@@ -37,27 +39,27 @@ int	nbrcount(size_t n, int radix)
 	return (count);
 }
 
-int	hexprint(unsigned int hex, int up)
+int	hexprint(size_t hex, char c)
 {
 	int	count;
 
 	count = nbrcount(hex, 16);
-	if (up == 2)
+	if (c == 'p')
 	{
 		ft_putstr_fd("0x", 1);
 		count += 2;
-		up = 0;
+		c = 'x';
 	}
 	if (hex >= 16)
 	{
-		hexprint(hex / 16, up);
-		hexprint(hex % 16, up);
+		hexprint(hex / 16, c);
+		hexprint(hex % 16, c);
 	}
 	else
 	{
 		if (hex < 10)
 			ft_putchar_fd(hex + 48, 1);
-		else if (!up)
+		else if (c == 'x')
 			ft_putchar_fd(hex + 87, 1);
 		else
 			ft_putchar_fd(hex + 55, 1);
