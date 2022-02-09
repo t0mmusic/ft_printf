@@ -6,12 +6,11 @@
 /*   By: jbrown <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 09:06:40 by jbrown            #+#    #+#             */
-/*   Updated: 2022/02/04 14:00:04 by jbrown           ###   ########.fr       */
+/*   Updated: 2022/02/04 14:20:28 by jbrown           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
 
 void	ft_putnbr(size_t n)
 {

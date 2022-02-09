@@ -6,7 +6,7 @@
 /*   By: jbrown <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 11:47:38 by jbrown            #+#    #+#             */
-/*   Updated: 2022/02/04 12:45:03 by jbrown           ###   ########.fr       */
+/*   Updated: 2022/02/04 16:27:02 by jbrown           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,23 +34,23 @@ int	charprint(char c)
 	return (1);
 }
 
-int	printtype(const char c, va_list v, int *i)
+int	printtype(const char *c, va_list v, int *i)
 {
-	if (c == 'c')
+	if (*c == 'c')
 		return (charprint(va_arg(v, int)));
-	if (c == 's')
+	if (*c == 's')
 		return (strprint(v));
-	if (c == 'i' || c == 'd')
+	if (*c == 'i' || *c == 'd')
 		return (negcheck(va_arg(v, int)));
-	if (c == 'u')
+	if (*c == 'u')
 		return (negcheck(va_arg(v, unsigned int)));
-	if (c == 'x' || c == 'X')
-		return (hexprint(va_arg(v, unsigned int), c));
-	if (c == 'p')
-		return (hexprint(va_arg(v, unsigned long), c));
-	if (c == '%')
-		return (charprint(c));
-	if (!c)
+	if (*c == 'x' || *c == 'X')
+		return (hexprint(va_arg(v, unsigned int), *c));
+	if (*c == 'p')
+		return (hexprint(va_arg(v, unsigned long), *c));
+	if (*c == '%')
+		return (charprint(*c));
+	if (!*c)
 		return (0);
 	else
 		*i = *i - 1;
@@ -70,7 +70,7 @@ int	ft_printf(const char *str, ...)
 	{
 		if (str[i] == '%' && str[++i])
 		{
-			count += printtype(str[i], v, &i);
+			count += printtype(&str[i], v, &i);
 			i++;
 		}
 		if (str[i] && str[i] != '%')

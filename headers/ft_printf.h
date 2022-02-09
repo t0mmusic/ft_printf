@@ -6,7 +6,7 @@
 /*   By: jbrown <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 12:20:57 by jbrown            #+#    #+#             */
-/*   Updated: 2022/02/04 10:13:12 by jbrown           ###   ########.fr       */
+/*   Updated: 2022/02/09 16:00:17 by jbrown           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,24 @@
 
 # include <stdarg.h>
 # include "libft.h"
+
+typedef	struct	s_flags
+{
+	int	zero;
+	int	pound;
+	int	plus;
+	int	minus;
+}	t_flags;
+
+typedef	struct	s_specs
+{
+	va_list	arg;
+	char	format;
+	t_flags	flags;
+	int		width;
+	int		precision;
+	char	length;
+}	t_specs;
 
 void	ft_putnbr(size_t n);
 int		hexprint(size_t hex, char c);
