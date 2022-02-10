@@ -6,22 +6,21 @@
 /*   By: jbrown <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 14:03:20 by jbrown            #+#    #+#             */
-/*   Updated: 2022/02/09 16:04:34 by jbrown           ###   ########.fr       */
+/*   Updated: 2022/02/10 16:30:55 by jbrown           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <stdio.h>
+#include "ft_printf.h"
 
 void	specinit(t_specs *s)
 {
 	s->format = 0;
 	s->width = 0;
 	s->precision = 0;
-	s->length = 0;
-	s->flags.zero = 0;
-	s->flags.pound = 0;
-	s->flags.plus = 0;
+	s->space = 0;
+	s->zero = 0;
+	s->pound = 0;
+	s->plus = 0;
 }
 
 int	nbrcount(int i)
