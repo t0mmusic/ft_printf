@@ -6,7 +6,7 @@
 /*   By: jbrown <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 12:20:57 by jbrown            #+#    #+#             */
-/*   Updated: 2022/02/09 16:00:17 by jbrown           ###   ########.fr       */
+/*   Updated: 2022/02/10 16:27:05 by jbrown           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,27 +16,32 @@
 # include <stdarg.h>
 # include "libft.h"
 
-typedef	struct	s_flags
+typedef struct s_specs
 {
-	int	zero;
-	int	pound;
-	int	plus;
-	int	minus;
-}	t_flags;
-
-typedef	struct	s_specs
-{
+	int		zero;
+	int		pound;
+	int		plus;
+	int		minus;
 	va_list	arg;
 	char	format;
-	t_flags	flags;
 	int		width;
 	int		precision;
-	char	length;
+	char	space;
 }	t_specs;
 
-void	ft_putnbr(size_t n);
-int		hexprint(size_t hex, char c);
-int		negcheck(long long int n);
 int		ft_printf(const char *str, ...);
+char	*ft_neghandle(long long int n);
+char	*ft_nbrtoa(size_t n, int radix);
+int		nbrcount(int i);
+void	specinit(t_specs *s);
+char	*nbrmod(t_specs *s, char *str);
+char	*strmod(t_specs *s, char *str);
+char	*hexmod(t_specs *s, char *str);
+char	*sidejustify(t_specs *s, char *str);
+void	strfill(char *str, char c, int len);
+char	*paramaterfill(char *s);
+int		validitycheck(char *s);
+int		flagcheck(char c);
+int		formatcheck(char c);
 
 #endif
