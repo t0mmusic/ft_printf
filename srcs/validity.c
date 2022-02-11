@@ -6,11 +6,25 @@
 /*   By: jbrown <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 13:05:43 by jbrown            #+#    #+#             */
-/*   Updated: 2022/02/09 17:04:18 by jbrown           ###   ########.fr       */
+/*   Updated: 2022/02/11 15:31:15 by jbrown           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
+
+char	*chartostr(char	c)
+{
+	char	*str;
+
+	if (c == 0)
+		ft_putchar_fd(0, 1);
+	str = malloc(sizeof(*str) * 2);
+	if (!str)
+		return (NULL);
+	str[0] = c;
+	str[1] = '\0';
+	return (str);
+}
 
 int	formatcheck(char c)
 {

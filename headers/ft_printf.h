@@ -6,7 +6,7 @@
 /*   By: jbrown <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 12:20:57 by jbrown            #+#    #+#             */
-/*   Updated: 2022/02/10 16:27:05 by jbrown           ###   ########.fr       */
+/*   Updated: 2022/02/11 14:27:02 by jbrown           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ typedef struct s_specs
 int		ft_printf(const char *str, ...);
 char	*ft_neghandle(long long int n);
 char	*ft_nbrtoa(size_t n, int radix);
-int		nbrcount(int i);
+int		nbrcount(size_t n, int radix);
 void	specinit(t_specs *s);
 char	*nbrmod(t_specs *s, char *str);
 char	*strmod(t_specs *s, char *str);
@@ -42,6 +42,8 @@ void	strfill(char *str, char c, int len);
 char	*paramaterfill(char *s);
 int		validitycheck(char *s);
 int		flagcheck(char c);
+char	*strhandle(va_list v);
+char	*chartostr(char	c);
 int		formatcheck(char c);
 
 #endif

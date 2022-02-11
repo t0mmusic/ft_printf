@@ -6,11 +6,12 @@
 /*   By: jbrown <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 14:39:01 by jbrown            #+#    #+#             */
-/*   Updated: 2022/02/10 16:31:50 by jbrown           ###   ########.fr       */
+/*   Updated: 2022/02/11 16:48:48 by jbrown           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+#include <stdio.h>
 
 void	specfill(t_specs *s, char *str)
 {
@@ -22,17 +23,16 @@ void	specfill(t_specs *s, char *str)
 		if (ft_isdigit(str[i]))
 		{
 			s->width = ft_atoi(&str[i]);
-			i += nbrcount(s->width);
+			i += nbrcount(s->width, 10);
 		}
 		if (str[i] == '.' && !s->precision)
 		{
 			s->precision = ft_atoi(&str[i + 1]);
-			i += nbrcount(s->precision);
+			i += nbrcount(s->precision, 10);
 		}
-		if (!str[i + 1])
-			s->format = str[i];
 		i++;
 	}
+	free(str);
 }
 
 void	flagfill(t_specs *s, char *str)
@@ -55,6 +55,7 @@ void	flagfill(t_specs *s, char *str)
 			s->zero = 1;
 		i++;
 	}
+	specfill(s, str);
 }
 
 char	*printtype(char c, va_list v)
@@ -70,11 +71,11 @@ char	*printtype(char c, va_list v)
 	if (c == 'o')
 		return (ft_nbrtoa(va_arg(v, unsigned int), 8));
 	if (c == 's')
-		return (ft_strdup(va_arg(v, char *)));
+		return (strhandle(v));
 	if (c == 'c')
-		return (va_arg(v, char *));
+		return (chartostr(va_arg(v, int)));
 	if (c == '%')
-		return ("%");
+		return (chartostr('%'));
 	return (NULL);
 }
 
@@ -82,24 +83,29 @@ int	formatspec(const char *c, t_specs *s, va_list v, int *count)
 {
 	char	*s1;
 	char	*s2;
-	char	format;
+	int		len;
 
 	s1 = paramaterfill((char *) c);
 	if (!s1)
 		return (0);
-	format = s1[ft_strlen(s1) - 1];
-	s2 = printtype(format, v);
+	len = ft_strlen(s1);
+	s->format = s1[len - 1];
+	s2 = printtype(s->format, v);
+	if (!s2)
+		return (0);
 	flagfill(s, s1);
-	specfill(s, s1);
-	if (s->format == 's')
+	if (s->format == 's' || s->format == 'c' || s->format == '%')
 		s2 = strmod(s, s2);
 	else if (s->format == 'x' || s->format == 'X' || s->format == 'p')
 		s2 = hexmod(s, s2);
 	else
 		s2 = nbrmod(s, s2);
 	ft_putstr_fd(s2, 1);
+	if (s->format == 'c' && !ft_strlen(s2))
+		*count += 1;
 	*count += ft_strlen(s2);
-	return (ft_strlen(s1));
+	free(s2);
+	return (len);
 }
 
 int	ft_printf(const char *str, ...)

@@ -6,7 +6,7 @@
 /*   By: jbrown <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 14:03:20 by jbrown            #+#    #+#             */
-/*   Updated: 2022/02/10 16:30:55 by jbrown           ###   ########.fr       */
+/*   Updated: 2022/02/11 14:18:23 by jbrown           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,33 +23,44 @@ void	specinit(t_specs *s)
 	s->plus = 0;
 }
 
-int	nbrcount(int i)
+char	*strhandle(va_list v)
 {
-	int	r;
+	char	*str;
+	char	*tmp;
 
-	r = 0;
-	while (i)
+	tmp = va_arg(v, char *);
+	if (!tmp)
+		return (ft_strdup("(null)"));
+	str = ft_strdup(tmp);
+	if (!str)
+		return (NULL);
+	return (str);
+}
+
+int	nbrcount(size_t n, int radix)
+{
+	int	count;
+
+	count = 0;
+	while (n)
 	{
-		i /= 10;
-		r++;
+		n /= radix;
+		count++;
 	}
-	return (r);
+	return (count);
 }
 
 char	*ft_nbrtoa(size_t n, int radix)
 {
-	int		tmp;
 	int		digits;
 	char	*s;
 
-	tmp = n;
-	digits = 0;
-	while (tmp)
-	{
-		tmp /= radix;
-		digits++;
-	}
+	if (!n)
+		return (ft_strdup("0"));
+	digits = nbrcount(n, radix);
 	s = malloc(sizeof(*s) * (digits + 1));
+	if (!s)
+		return (NULL);
 	s[digits] = '\0';
 	while (--digits > -1)
 	{
@@ -64,10 +75,19 @@ char	*ft_nbrtoa(size_t n, int radix)
 
 char	*ft_neghandle(long long int n)
 {
+	char	*t1;
+	char	*t2;
+
 	if (n < 0)
 	{
 		n = -n;
-		return (ft_strjoin("-", ft_nbrtoa(n, 10)));
+		t1 = ft_nbrtoa(n, 10);
+		if (!t1)
+			return (NULL);
+		t2 = t1;
+		t1 = ft_strjoin("-", t1);
+		free (t2);
+		return (t1);
 	}
 	return (ft_nbrtoa(n, 10));
 }

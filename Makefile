@@ -6,7 +6,7 @@
 #    By: jbrown <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/31 10:58:52 by jbrown            #+#    #+#              #
-#    Updated: 2022/02/10 16:07:38 by jbrown           ###   ########.fr        #
+#    Updated: 2022/02/11 15:20:10 by jbrown           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,8 @@ $(NAME):
 	$(CC) $(CFLAGS) $(SRCS)
 	$(OBJ_DEST)
 	ar rcs $(NAME) $(OBJS)
+
+bonus: $(NAME)
 
 clean:
 	$(MAKE) clean -C ./libft
