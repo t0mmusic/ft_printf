@@ -6,7 +6,7 @@
 /*   By: jbrown <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 13:05:43 by jbrown            #+#    #+#             */
-/*   Updated: 2022/02/11 15:31:15 by jbrown           ###   ########.fr       */
+/*   Updated: 2022/02/14 17:17:50 by jbrown           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ char	*chartostr(char	c)
 {
 	char	*str;
 
-	if (c == 0)
-		ft_putchar_fd(0, 1);
 	str = malloc(sizeof(*str) * 2);
 	if (!str)
 		return (NULL);
@@ -59,17 +57,17 @@ int	validitycheck(char *s)
 			return (-1);
 		i++;
 	}
-	if (!formatcheck(s[i]))
+	if (formatcheck(s[i]) == '%' && )
 		return (-1);
 	return (i + 1);
 }
 
 char	*paramaterfill(char *s)
 {
-	int	i;
+	int		i;;
 
 	i = validitycheck(s);
 	if (i < 0)
-		return (0);
+		s.arg = ft_substr(s, 0, i);
 	return (ft_substr(s, 0, i));
 }

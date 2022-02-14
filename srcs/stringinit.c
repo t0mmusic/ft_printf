@@ -6,7 +6,7 @@
 /*   By: jbrown <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 14:03:20 by jbrown            #+#    #+#             */
-/*   Updated: 2022/02/11 14:18:23 by jbrown           ###   ########.fr       */
+/*   Updated: 2022/02/14 16:42:57 by jbrown           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	specinit(t_specs *s)
 	s->zero = 0;
 	s->pound = 0;
 	s->plus = 0;
+	s->minus = 0;
 }
 
 char	*strhandle(va_list v)

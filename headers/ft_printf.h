@@ -6,7 +6,7 @@
 /*   By: jbrown <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 12:20:57 by jbrown            #+#    #+#             */
-/*   Updated: 2022/02/11 14:27:02 by jbrown           ###   ########.fr       */
+/*   Updated: 2022/02/14 17:18:26 by jbrown           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,14 @@ char	*ft_neghandle(long long int n);
 char	*ft_nbrtoa(size_t n, int radix);
 int		nbrcount(size_t n, int radix);
 void	specinit(t_specs *s);
-char	*nbrmod(t_specs *s, char *str);
-char	*strmod(t_specs *s, char *str);
-char	*hexmod(t_specs *s, char *str);
-char	*sidejustify(t_specs *s, char *str);
+char	*nbrwidth(t_specs *s, char *str);
+char	*strwidth(t_specs *s, char *str);
+char	*hexwidth(t_specs *s, char *str);
+char	*nbrprec(t_specs *s, char *str);
+char	*strprec(t_specs *s, char *str);
+char	*hexprec(t_specs *s, char *str);
+void	charprec(t_specs *s, char *str, int *count);
+char	*freejoin(char *s1, char *s2);
 void	strfill(char *str, char c, int len);
 char	*paramaterfill(char *s);
 int		validitycheck(char *s);

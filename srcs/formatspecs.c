@@ -6,7 +6,7 @@
 /*   By: jbrown <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 14:39:01 by jbrown            #+#    #+#             */
-/*   Updated: 2022/02/11 16:48:48 by jbrown           ###   ########.fr       */
+/*   Updated: 2022/02/14 17:03:35 by jbrown           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,9 @@ void	specfill(t_specs *s, char *str)
 		}
 		if (str[i] == '.' && !s->precision)
 		{
-			s->precision = ft_atoi(&str[i + 1]);
+			if (formatcheck(str[i + 1]) && str[i + 1] != '%')
+					s->precision = -1;
+			s->precision += ft_atoi(&str[i + 1]);
 			i += nbrcount(s->precision, 10);
 		}
 		i++;
@@ -89,17 +91,28 @@ int	formatspec(const char *c, t_specs *s, va_list v, int *count)
 	if (!s1)
 		return (0);
 	len = ft_strlen(s1);
+	if (!formatcheck(s1[len - 1]))
+	{
+		free(s1);
+		return (len);
+	}
+	len = ft_strlen(s1);
 	s->format = s1[len - 1];
 	s2 = printtype(s->format, v);
 	if (!s2)
 		return (0);
 	flagfill(s, s1);
-	if (s->format == 's' || s->format == 'c' || s->format == '%')
-		s2 = strmod(s, s2);
+	if (s->format == 'c' || s->format == '%')
+	{
+		charprec(s, s2, count);
+		return (len);
+	}
+	else if (s->format == 's')
+		s2 = strprec(s, s2);
 	else if (s->format == 'x' || s->format == 'X' || s->format == 'p')
-		s2 = hexmod(s, s2);
+		s2 = hexprec(s, s2);
 	else
-		s2 = nbrmod(s, s2);
+		s2 = nbrprec(s, s2);
 	ft_putstr_fd(s2, 1);
 	if (s->format == 'c' && !ft_strlen(s2))
 		*count += 1;
