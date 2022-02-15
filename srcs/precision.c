@@ -6,7 +6,7 @@
 /*   By: jbrown <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 09:12:47 by jbrown            #+#    #+#             */
-/*   Updated: 2022/02/15 12:49:05 by jbrown           ###   ########.fr       */
+/*   Updated: 2022/02/15 13:58:14 by jbrown           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@ void	charprec(t_specs *s, char *str, int *count)
 	char	*add;
 	int		zero;
 
-	zero = 1;
+	zero = 0;
 	if (!str[0])
 	{
 		*count += 1;
-		zero--;
+		zero++;
 	}
 	if (s->width > 1)
 	{
@@ -50,10 +50,12 @@ void	charprec(t_specs *s, char *str, int *count)
 		else
 			str = freejoin(add, str);
 	}
+	if (zero && s->minus)
+		ft_putchar_fd(0, 1);
 	ft_putstr_fd(str, 1);
 	free(str);
 	*count += ft_strlen(str);
-	if (!zero)
+	if (zero && !s->minus)
 		ft_putchar_fd(0, 1);
 }
 

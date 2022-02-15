@@ -6,7 +6,7 @@
 /*   By: jbrown <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 09:15:13 by jbrown            #+#    #+#             */
-/*   Updated: 2022/02/15 13:07:00 by jbrown           ###   ########.fr       */
+/*   Updated: 2022/02/15 14:59:17 by jbrown           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ char	*nbrwidth(t_specs *s, char *str)
 		else
 			str = freejoin(add, str);
 	}
-	if (s->precision)
+	if (s->precision || s->zero)
 		charmod(str, '-');
 	if (s->format != 'u' && s->precision)
 		str = nbrmod(s, str);

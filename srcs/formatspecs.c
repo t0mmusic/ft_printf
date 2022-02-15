@@ -6,12 +6,12 @@
 /*   By: jbrown <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 14:39:01 by jbrown            #+#    #+#             */
-/*   Updated: 2022/02/15 12:57:17 by jbrown           ###   ########.fr       */
+/*   Updated: 2022/02/15 15:52:37 by jbrown           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include <stdio.h>
+//#include <stdio.h>
 
 void	specfill(t_specs *s, char *str)
 {
@@ -20,15 +20,20 @@ void	specfill(t_specs *s, char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (ft_isdigit(str[i]))
+		if (ft_isdigit(str[i]) && !s->width)
 		{
-			while(str[i] == '0')
+			while(str[i] == '0' || !ft_isdigit(str[i]))
 				i++;
 			s->width = ft_atoi(&str[i]);
 			i += nbrcount(s->width, 10);
 			if (!str[i])
 				s->width = 0;
 		}
+		i++;
+	}
+	i = 0;
+	while (str[i])
+	{
 		if (str[i] == '.' && !s->precision)
 		{
 			if (formatcheck(str[i + 1]) && str[i + 1] != '%')
@@ -55,8 +60,8 @@ void	flagfill(t_specs *s, char *str)
 			s->minus = 1;
 		if (str[i] == ' ')
 			s->space = 1;
-		if (str[i] == '0' && ft_isdigit(str[i + 1])
-			&& !ft_isdigit(str[i - 1]))
+		if (str[i] == '0' && !ft_isdigit(str[i - 1])
+				&& (ft_isdigit(str[i + 1]) || flagcheck(str[i + 1])))
 			s->zero = 1;
 		i++;
 	}
@@ -97,7 +102,6 @@ int	formatspec(const char *c, t_specs *s, va_list v, int *count)
 	flagfill(s, s1);
 	if (!s1[len - 1])
 	{
-		printf("%s\n", s1);
 		free(s1);
 		return (len - 1);
 	}
