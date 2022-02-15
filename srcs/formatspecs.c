@@ -6,7 +6,7 @@
 /*   By: jbrown <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 14:39:01 by jbrown            #+#    #+#             */
-/*   Updated: 2022/02/14 17:03:35 by jbrown           ###   ########.fr       */
+/*   Updated: 2022/02/15 12:57:17 by jbrown           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,12 @@ void	specfill(t_specs *s, char *str)
 	{
 		if (ft_isdigit(str[i]))
 		{
+			while(str[i] == '0')
+				i++;
 			s->width = ft_atoi(&str[i]);
 			i += nbrcount(s->width, 10);
+			if (!str[i])
+				s->width = 0;
 		}
 		if (str[i] == '.' && !s->precision)
 		{
@@ -34,7 +38,6 @@ void	specfill(t_specs *s, char *str)
 		}
 		i++;
 	}
-	free(str);
 }
 
 void	flagfill(t_specs *s, char *str)
@@ -91,17 +94,35 @@ int	formatspec(const char *c, t_specs *s, va_list v, int *count)
 	if (!s1)
 		return (0);
 	len = ft_strlen(s1);
+	flagfill(s, s1);
+	if (!s1[len - 1])
+	{
+		printf("%s\n", s1);
+		free(s1);
+		return (len - 1);
+	}
 	if (!formatcheck(s1[len - 1]))
 	{
+		s2 = NULL;
 		free(s1);
-		return (len);
+		if (!s->width)
+			return (len);
+		while (s->width > 1)
+		{
+			if (s->zero)
+				ft_putchar_fd('0', 1);
+			else
+				ft_putchar_fd(' ', 1);
+			s->width--;
+			*count += 1;
+		}
+		return (len - 1);
 	}
-	len = ft_strlen(s1);
 	s->format = s1[len - 1];
 	s2 = printtype(s->format, v);
 	if (!s2)
 		return (0);
-	flagfill(s, s1);
+	free(s1);
 	if (s->format == 'c' || s->format == '%')
 	{
 		charprec(s, s2, count);
@@ -114,8 +135,6 @@ int	formatspec(const char *c, t_specs *s, va_list v, int *count)
 	else
 		s2 = nbrprec(s, s2);
 	ft_putstr_fd(s2, 1);
-	if (s->format == 'c' && !ft_strlen(s2))
-		*count += 1;
 	*count += ft_strlen(s2);
 	free(s2);
 	return (len);
