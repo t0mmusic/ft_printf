@@ -6,13 +6,13 @@
 /*   By: jbrown <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 09:12:47 by jbrown            #+#    #+#             */
-/*   Updated: 2022/02/16 14:08:50 by jbrown           ###   ########.fr       */
+/*   Updated: 2022/02/16 15:03:26 by jbrown           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-char	*charwidth(char	*str)
+char	*charwidth(char	*str, t_specs *s)
 {
 	char	*add;
 
@@ -30,7 +30,6 @@ char	*charwidth(char	*str)
 
 void	charprec(t_specs *s, char *str, int *count)
 {
-	char	*add;
 	int		zero;
 
 	zero = 0;
@@ -40,7 +39,7 @@ void	charprec(t_specs *s, char *str, int *count)
 		zero++;
 	}
 	if (s->width > 1)
-		str = charwidth(str);
+		str = charwidth(str, s);
 	if (zero && s->minus)
 		ft_putchar_fd(0, 1);
 	ft_putstr_fd(str, 1);

@@ -6,13 +6,13 @@
 /*   By: jbrown <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 13:37:12 by jbrown            #+#    #+#             */
-/*   Updated: 2022/02/16 14:11:50 by jbrown           ###   ########.fr       */
+/*   Updated: 2022/02/16 14:48:19 by jbrown           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	formatnull(const char c, t_specs *s, int len)
+int	formatnull(const char *c, t_specs *s, int len, int *count)
 {
 	if (ft_isdigit(c[len + *count - 1]) || (!s->width && !len))
 		return (len);
@@ -38,7 +38,7 @@ char	*formatstr(t_specs *s, char *s2)
 		return (nbrprec(s, s2));
 }
 
-char	*putnewstr(t_specs *s, va_list v, int *count)
+int	putnewstr(t_specs *s, va_list v, int *count, int len)
 {
 	char	*s2;
 
@@ -70,9 +70,9 @@ int	formatspec(const char *c, t_specs *s, va_list v, int *count)
 	if (!formatcheck(s1[len - 1]))
 	{
 		free(s1);
-		return (formatnull(c, s, len));
+		return (formatnull(c, s, len, count));
 	}
 	s->format = s1[len - 1];
 	free(s1);
-	return (putnewstr(s, v, count));
+	return (putnewstr(s, v, count, len));
 }

@@ -6,7 +6,7 @@
 /*   By: jbrown <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 12:51:51 by jbrown            #+#    #+#             */
-/*   Updated: 2022/02/16 13:01:09 by jbrown           ###   ########.fr       */
+/*   Updated: 2022/02/16 15:07:57 by jbrown           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ char	*hexwidth(t_specs *s, char *str)
 {
 	char	*add;
 	int		len;
-	int		i;
 
 	len = ft_strlen(str);
 	if (s->width > len)
