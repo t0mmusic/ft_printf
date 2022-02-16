@@ -6,12 +6,11 @@
 /*   By: jbrown <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 09:15:13 by jbrown            #+#    #+#             */
-/*   Updated: 2022/02/15 14:59:17 by jbrown           ###   ########.fr       */
+/*   Updated: 2022/02/16 13:13:01 by jbrown           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include <stdio.h>
 
 void	strfill(char *str, char c, int len)
 {
@@ -25,15 +24,19 @@ void	strfill(char *str, char c, int len)
 
 void	charmod(char *str, char c)
 {
-	int		i;
+	int	i;
+	int	j;
 
 	i = 0;
-	while ((str[i] == '0' || str[i] == ' ') && str[i])
+	j = 0;
+	while (str[i] == ' ' && str[i])
 		i++;
-	if (str[i] == c)
+	while(str[i + j] == '0')
+		j++;
+	if (str[i + j] == c && str[i] == '0')
 	{
-		str[i] = '0';
-		str[0] = c;
+		str[i + j] = '0';
+		str[i] = c;
 	}
 }
 
@@ -59,14 +62,12 @@ char	*nbrmod(t_specs *s, char *str)
 
 char	*freejoin(char *s1, char *s2)
 {
-	char	*t1;
-	char	*t2;
+	char	*temp;
 
-	t1 = s1;
-	t2 = s2;
+	temp = s2;
 	s2 = ft_strjoin(s1, s2);
-	free(t1);
-	free(t2);
+	free(s1);
+	free(temp);
 	return (s2);
 }
 
@@ -141,11 +142,11 @@ char	*nbrwidth(t_specs *s, char *str)
 	}
 	if (s->precision || s->zero)
 		charmod(str, '-');
+	if (s->plus)
+		charmod(str, '+');
+	if (s->space)
+		charmod(str, ' ');
 	if (s->format != 'u' && s->precision)
 		str = nbrmod(s, str);
-	if (s->plus && ft_atoi(str) >= 0)
-		str = freejoin(ft_strdup("+"), str);
-	if (s->space && !s->plus && ft_atoi(str) >= 0)
-		str = freejoin(ft_strdup(" "), str);
 	return (str);
 }

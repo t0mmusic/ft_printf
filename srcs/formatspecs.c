@@ -6,35 +6,20 @@
 /*   By: jbrown <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 14:39:01 by jbrown            #+#    #+#             */
-/*   Updated: 2022/02/15 15:52:37 by jbrown           ###   ########.fr       */
+/*   Updated: 2022/02/16 14:35:09 by jbrown           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-//#include <stdio.h>
 
-void	specfill(t_specs *s, char *str)
+void	setprecision(t_specs *s, char *str)
 {
 	int	i;
 
 	i = 0;
-	while (str[i])
+	while (str[i] && !s->precision)
 	{
-		if (ft_isdigit(str[i]) && !s->width)
-		{
-			while(str[i] == '0' || !ft_isdigit(str[i]))
-				i++;
-			s->width = ft_atoi(&str[i]);
-			i += nbrcount(s->width, 10);
-			if (!str[i])
-				s->width = 0;
-		}
-		i++;
-	}
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '.' && !s->precision)
+		if (str[i] == '.')
 		{
 			if (formatcheck(str[i + 1]) && str[i + 1] != '%')
 					s->precision = -1;
@@ -43,6 +28,36 @@ void	specfill(t_specs *s, char *str)
 		}
 		i++;
 	}
+}
+
+void	setwidth(t_specs *s, char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '.' || str[i - 1] == '.')
+		{
+			i++;
+			while (ft_isdigit(str[i]) && str[i])
+				i++;
+		}
+		if (ft_isdigit(str[i]))
+		{
+			while(str[i] && (str[i] == '0' || !ft_isdigit(str[i])))
+				i++;
+			if (str[i])
+			{
+				s->width = ft_atoi(&str[i]);
+				i += nbrcount(s->width, 10);
+			}
+			if (!str[i])
+				s->width = 0;
+		}
+		i++;
+	}
+	setprecision(s, str);
 }
 
 void	flagfill(t_specs *s, char *str)
@@ -65,7 +80,7 @@ void	flagfill(t_specs *s, char *str)
 			s->zero = 1;
 		i++;
 	}
-	specfill(s, str);
+	setwidth(s, str);
 }
 
 char	*printtype(char c, va_list v)
@@ -100,16 +115,11 @@ int	formatspec(const char *c, t_specs *s, va_list v, int *count)
 		return (0);
 	len = ft_strlen(s1);
 	flagfill(s, s1);
-	if (!s1[len - 1])
-	{
-		free(s1);
-		return (len - 1);
-	}
 	if (!formatcheck(s1[len - 1]))
 	{
 		s2 = NULL;
 		free(s1);
-		if (!s->width)
+		if (ft_isdigit(c[len + *count - 1]) || (!s->width && !len))
 			return (len);
 		while (s->width > 1)
 		{
