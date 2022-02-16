@@ -5,74 +5,48 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jbrown <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/31 11:47:38 by jbrown            #+#    #+#             */
-/*   Updated: 2022/02/04 12:45:03 by jbrown           ###   ########.fr       */
+/*   Created: 2022/02/16 14:12:06 by jbrown            #+#    #+#             */
+/*   Updated: 2022/02/16 14:24:14 by jbrown           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include <stdarg.h>
-#include "libft.h"
 
-int	strprint(va_list v)
+char	*printtype(char c, va_list v)
 {
-	char	*str;
-
-	str = va_arg(v, char *);
-	if (!str)
-	{
-		ft_putstr_fd("(null)", 1);
-		return (6);
-	}
-	ft_putstr_fd(str, 1);
-	return (ft_strlen(str));
-}
-
-int	charprint(char c)
-{
-	ft_putchar_fd(c, 1);
-	return (1);
-}
-
-int	printtype(const char c, va_list v, int *i)
-{
-	if (c == 'c')
-		return (charprint(va_arg(v, int)));
-	if (c == 's')
-		return (strprint(v));
-	if (c == 'i' || c == 'd')
-		return (negcheck(va_arg(v, int)));
+	if (c == 'd' || c == 'i')
+		return (ft_neghandle(va_arg(v, int)));
 	if (c == 'u')
-		return (negcheck(va_arg(v, unsigned int)));
+		return (ft_nbrtoa(va_arg(v, unsigned int), 10));
 	if (c == 'x' || c == 'X')
-		return (hexprint(va_arg(v, unsigned int), c));
+		return (ft_nbrtoa(va_arg(v, unsigned int), 16));
 	if (c == 'p')
-		return (hexprint(va_arg(v, unsigned long), c));
+		return (ft_nbrtoa(va_arg(v, unsigned long), 16));
+	if (c == 'o')
+		return (ft_nbrtoa(va_arg(v, unsigned int), 8));
+	if (c == 's')
+		return (strhandle(v));
+	if (c == 'c')
+		return (chartostr(va_arg(v, int)));
 	if (c == '%')
-		return (charprint(c));
-	if (!c)
-		return (0);
-	else
-		*i = *i - 1;
-	return (0);
+		return (chartostr('%'));
+	return (NULL);
 }
 
 int	ft_printf(const char *str, ...)
 {
+	t_specs	s;
 	int		i;
 	int		count;
-	va_list	v;
 
-	va_start(v, str);
+	va_start(s.arg, str);
 	count = 0;
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == '%' && str[++i])
-		{
-			count += printtype(str[i], v, &i);
-			i++;
-		}
+		specinit(&s);
+		if (str[i] == '%' && str[i++])
+			i += formatspec(&str[i], &s, s.arg, &count);
 		if (str[i] && str[i] != '%')
 		{
 			ft_putchar_fd(str[i], 1);
@@ -80,6 +54,6 @@ int	ft_printf(const char *str, ...)
 			count++;
 		}
 	}
-	va_end(v);
+	va_end(s.arg);
 	return (count);
 }

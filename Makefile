@@ -6,7 +6,7 @@
 #    By: jbrown <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/31 10:58:52 by jbrown            #+#    #+#              #
-#    Updated: 2022/02/01 15:05:17 by jbrown           ###   ########.fr        #
+#    Updated: 2022/02/16 15:30:34 by jbrown           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,9 @@ CFLAGS = -Wall -Werror -Wextra -Iheaders -I . -c
 
 RM = rm -f
 
-SRCS = srcs/ft_printf.c srcs/ft_putnbr.c
+SRCS = srcs/width.c srcs/strother.c srcs/setnbr.c srcs/setformat.c \
+	   srcs/precision.c srcs/helperfn.c srcs/ft_printf.c \
+	   srcs/formatspec.c srcs/flagcheck.c
 
 OBJ_DEST = mv *.o srcs
 
@@ -30,6 +32,8 @@ $(NAME):
 	$(CC) $(CFLAGS) $(SRCS)
 	$(OBJ_DEST)
 	ar rcs $(NAME) $(OBJS)
+
+bonus: $(NAME)
 
 clean:
 	$(MAKE) clean -C ./libft
