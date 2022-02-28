@@ -6,27 +6,14 @@
 /*   By: jbrown <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 13:37:12 by jbrown            #+#    #+#             */
-/*   Updated: 2022/02/16 14:48:19 by jbrown           ###   ########.fr       */
+/*   Updated: 2022/02/28 14:00:17 by jbrown           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	formatnull(const char *c, t_specs *s, int len, int *count)
-{
-	if (ft_isdigit(c[len + *count - 1]) || (!s->width && !len))
-		return (len);
-	while (s->width > 1)
-	{
-		if (s->zero)
-			ft_putchar_fd('0', 1);
-		else
-			ft_putchar_fd(' ', 1);
-		s->width--;
-		*count += 1;
-	}
-	return (len - 1);
-}
+/* Gets the allocated strings ready for final modifications by 
+ * breaking them into the correct catagories */
 
 char	*formatstr(t_specs *s, char *s2)
 {
@@ -38,24 +25,58 @@ char	*formatstr(t_specs *s, char *s2)
 		return (nbrprec(s, s2));
 }
 
-int	putnewstr(t_specs *s, va_list v, int *count, int len)
-{
-	char	*s2;
+/* A list of valid print types that are valid in printf.
+ * This list includes types that are not handled by this
+ * project but are used by the real printf. */
 
-	s2 = printtype(s->format, v);
-	if (!s2)
-		return (0);
-	if (s->format == 'c' || s->format == '%')
-	{
-		charprec(s, s2, count);
-		return (len);
-	}
-	s2 = formatstr(s, s2);
-	ft_putstr_fd(s2, 1);
-	*count += ft_strlen(s2);
-	free(s2);
-	return (len);
+int	formatcheck(char c)
+{
+	if (c == 'c' || c == 's' || c == 'n' || c == 'd'
+		|| c == 'i' || c == 'o' || c == 'x'
+		|| c == 'X' || c == 'p' || c == 'f'
+		|| c == 'u' || c == 'G' || c == 'g'
+		|| c == 'e' || c == 'E' || c == '%')
+		return (c);
+	return (0);
 }
+
+/* A list of all format specifiers that can be used to
+ * modify the final output. This list includes types
+ * that are not handled by this project but are used 
+ * by the real printf. */
+
+int	flagcheck(char c)
+{
+	if (c == '-' || c == '+' || c == ' ' || c == '#'
+		|| c == '0' || c == '*' || c == '.'
+		|| c == 'l' || c == 'L' || c == 'h')
+		return (c);
+	if (ft_isdigit(c))
+		return (c);
+	return (0);
+}
+
+/* Attemps to find a valid print type. If a non-valid
+ * character is encountered before a type is found,
+ * it will return the string up to the last valid
+ * character */
+
+char	*paramaterfill(char *s)
+{
+	int		i;
+
+	i = 0;
+	while (s[i] && !formatcheck(s[i]))
+	{
+		if (!flagcheck(s[i]))
+			return (ft_substr(s, 0, i + 1));
+		i++;
+	}
+	return (ft_substr(s, 0, i + 1));
+}
+
+/* Creates a string containing everything from '%' to
+ * a valid print type or the null terminator */
 
 int	formatspec(const char *c, t_specs *s, va_list v, int *count)
 {
