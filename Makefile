@@ -6,7 +6,7 @@
 #    By: jbrown <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/31 10:58:52 by jbrown            #+#    #+#              #
-#    Updated: 2022/02/16 15:30:34 by jbrown           ###   ########.fr        #
+#    Updated: 2022/03/03 10:15:58 by jbrown           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,9 +16,9 @@ CFLAGS = -Wall -Werror -Wextra -Iheaders -I . -c
 
 RM = rm -f
 
-SRCS = srcs/width.c srcs/strother.c srcs/setnbr.c srcs/setformat.c \
-	   srcs/precision.c srcs/helperfn.c srcs/ft_printf.c \
-	   srcs/formatspec.c srcs/flagcheck.c
+SRCS = srcs/basic_print.c srcs/character_handle.c srcs/formatspec.c \
+	   srcs/formatspec_extra.c srcs/ft_printf.c srcs/string_handle.c \
+	   srcs/nbr_prec_width.c srcs/setnbr.c
 
 OBJ_DEST = mv *.o srcs
 

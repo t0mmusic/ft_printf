@@ -6,7 +6,7 @@
 /*   By: jbrown <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 12:20:57 by jbrown            #+#    #+#             */
-/*   Updated: 2022/02/28 13:11:51 by jbrown           ###   ########.fr       */
+/*   Updated: 2022/03/03 09:54:14 by jbrown           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int		ft_printf(const char *str, ...);
 char	*printtype(char c, va_list v);
 void	specinit(t_specs *s);
 int		putnewstr(t_specs *s, va_list v, int *count, int len);
+int		basic_print(char c, va_list v);
 
 /* Number handling including hexidecimal */
 

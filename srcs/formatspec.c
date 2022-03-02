@@ -6,7 +6,7 @@
 /*   By: jbrown <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 13:37:12 by jbrown            #+#    #+#             */
-/*   Updated: 2022/02/28 14:00:17 by jbrown           ###   ########.fr       */
+/*   Updated: 2022/03/03 10:05:13 by jbrown           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,11 @@ int	formatspec(const char *c, t_specs *s, va_list v, int *count)
 	char	*s1;
 	int		len;
 
+	if (formatcheck(c[0]))
+	{
+		*count += basic_print(c[0], v);
+		return (1);
+	}
 	s1 = paramaterfill((char *) c);
 	if (!s1)
 		return (0);
