@@ -9,4 +9,4 @@ In addition to printing, the function must work with flags and other format spec
 
 # Status
 
-Ongoing. Falied first attempt, character printing fails assessment.
+Complete! Passes with 125%
