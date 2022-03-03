@@ -6,7 +6,7 @@
 /*   By: jbrown <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/03 08:54:50 by jbrown            #+#    #+#             */
-/*   Updated: 2022/03/03 10:09:39 by jbrown           ###   ########.fr       */
+/*   Updated: 2022/03/03 10:26:53 by jbrown           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	putnbr_radix(size_t n, size_t radix, char up)
 	if (n >= radix)
 	{
 		putnbr_radix(n / radix, radix, up);
-		putnbr_radix(n % radix, radix, up);	
+		putnbr_radix(n % radix, radix, up);
 	}
 	if (n < radix)
 	{
