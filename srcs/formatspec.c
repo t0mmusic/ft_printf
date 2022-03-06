@@ -35,7 +35,7 @@ int	formatcheck(char c)
 		|| c == 'i' || c == 'o' || c == 'x'
 		|| c == 'X' || c == 'p' || c == 'f'
 		|| c == 'u' || c == 'G' || c == 'g'
-		|| c == 'e' || c == 'E' || c == '%')
+		|| c == 'e' || c == 'E' || c == '%' || c == 'r')
 		return (c);
 	return (0);
 }
@@ -83,7 +83,7 @@ int	formatspec(const char *c, t_specs *s, va_list v, int *count)
 	char	*s1;
 	int		len;
 
-	if (formatcheck(c[0]))
+	if (formatcheck(c[0]) && c[0] != 'r')
 	{
 		*count += basic_print(c[0], v);
 		return (1);

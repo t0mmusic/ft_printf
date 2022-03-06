@@ -18,7 +18,7 @@ RM = rm -f
 
 SRCS = srcs/basic_print.c srcs/character_handle.c srcs/formatspec.c \
 	   srcs/formatspec_extra.c srcs/ft_printf.c srcs/string_handle.c \
-	   srcs/nbr_prec_width.c srcs/setnbr.c
+	   srcs/nbr_prec_width.c srcs/setnbr.c srcs/radix_print.c
 
 OBJ_DEST = mv *.o srcs
 
@@ -27,7 +27,7 @@ OBJS = $(SRCS:.c=.o)
 all: $(NAME)
 
 $(NAME):
-	$(MAKE) -C ./libft
+	$(MAKE) bonus -C ./libft
 	cp libft/libft.a $(NAME)
 	$(CC) $(CFLAGS) $(SRCS)
 	$(OBJ_DEST)

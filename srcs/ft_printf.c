@@ -85,6 +85,8 @@ char	*printtype(char c, va_list v)
 		return (chartostr(va_arg(v, int)));
 	if (c == '%')
 		return (chartostr('%'));
+	if (c == 'r')
+		return (radix_print(v));
 	return (NULL);
 }
 

@@ -82,4 +82,7 @@ int		formatnull(const char *c, t_specs *s, int len, int *count);
 
 char	*freejoin(char *s1, char *s2);
 
+/* Extra fun functions */
+char	*radix_print(va_list v);
+
 #endif
