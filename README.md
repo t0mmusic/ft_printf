@@ -23,6 +23,10 @@ In addition to printing, the function must work with flags and other format spec
 width specifier - dictates the total length of the output string<br />
 precision specifier - limits the total length of the output string<br />
 
+# Details
+
+A document detailing some of the choices made [can be found here](https://docs.google.com/document/d/1d9tURqtoB20OnSp-jafY_21bqlDb-ZWNDP2nnaQb504/edit?usp=sharing).
+
 # Status
 
 Complete! Passes with 125%
