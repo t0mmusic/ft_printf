@@ -11,6 +11,7 @@
 # **************************************************************************** #
 
 NAME = libftprintf.a
+LIBFT = libft.a
 CC = gcc
 CFLAGS = -Wall -Werror -Wextra -Iheaders -I . -c
 
@@ -24,24 +25,44 @@ OBJ_DEST = mv *.o srcs
 
 OBJS = $(SRCS:.c=.o)
 
+LIBFT_MSG = echo "libft archive compiling..."
+LIBFT_CLEAN_MSG = echo "removing libft object files"
+LIBFT_FCLEAN_MSG = echo "removing libft archive"
+PRINTF_CLEAN_MSG = echo "removing printf object files"
+PRINTF_FCLEAN_MSG = echo "removing printf archive"
+PRINTF_MSG = echo "printf archive compiling..."
+COMPLETE_MSG = echo "printf archive ready!"
+
 all: $(NAME)
 
-$(NAME):
-	$(MAKE) bonus -C ./libft
-	cp libft/libft.a $(NAME)
-	$(CC) $(CFLAGS) $(SRCS)
-	$(OBJ_DEST)
-	ar rcs $(NAME) $(OBJS)
+$(NAME): $(LIBFT)
+	@$(CC) $(CFLAGS) $(SRCS) >/dev/null
+	@$(PRINTF_MSG)
+	@$(OBJ_DEST) >/dev/null
+	@ar rcs $(NAME) $(OBJS) >/dev/null
+	@$(COMPLETE_MSG)
 
 bonus: $(NAME)
 
+$(LIBFT):
+	if [ ! -d "libft/" ]; then\
+		git clone https://github.com/t0mmusic/libft.git libft; \
+	fi
+	@$(LIBFT_MSG)
+	@$(MAKE) bonus -C ./libft >/dev/null
+	@cp libft/libft.a $(NAME) >/dev/null
+
 clean:
-	$(MAKE) clean -C ./libft
-	$(RM) $(OBJS)
+	@$(MAKE) clean -C ./libft >/dev/null
+	@$(LIBFT_CLEAN_MSG)
+	@$(RM) $(OBJS) >/dev/null
+	@$(PRINTF_CLEAN_MSG)
 
 fclean: clean
-	$(MAKE) fclean -C ./libft
-	$(RM) $(NAME)
+	@$(MAKE) fclean -C ./libft >/dev/null
+	@$(LIBFT_FCLEAN_MSG)
+	@$(RM) $(NAME) >/dev/null
+	@$(PRINTF_FCLEAN_MSG)
 
 re: fclean all
 
