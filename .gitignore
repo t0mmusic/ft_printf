@@ -1,6 +1,7 @@
 **/objects
 **/archives
-headers/*
+headers/
+!headers/ft_printf.h
 **/libft
 main.c
 .main.c

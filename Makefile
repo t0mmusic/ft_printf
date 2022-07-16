@@ -23,7 +23,6 @@ SRCS = srcs/basic_print.c srcs/character_handle.c srcs/formatspec.c \
 OBJ_DEST = objects
 ARCHIVE_DEST = archives
 HEADER_DEST = headers
-HDR_INCL = $(HEADER_DEST)/inc_headers
 
 CFLAGS = -Wall -Werror -Wextra -I $(HEADER_DEST) -I $(HDR_INCL)
 
@@ -58,10 +57,9 @@ $(LIBFT):
 	@$(MAKE) bonus -C ./libft >/dev/null
 	@mkdir -p $(OBJ_DEST)
 	@mkdir -p $(ARCHIVE_DEST)
-	@mkdir -p $(HDR_INCL)
 	@cp libft/libft.a $(NAME) >/dev/null
 	@mv libft/*.o $(OBJ_DEST)
-	@cp libft/*.h $(HDR_INCL)
+	@cp libft/*.h $(HEADER_DEST)
 
 objects/%.o: srcs/%.c
 	@$(CC) $(CFLAGS) -c $< -o $@
