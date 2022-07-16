@@ -1,3 +1,6 @@
+**/objects
+**/archives
+headers/*
 **/libft
 main.c
 .main.c
@@ -6,3 +9,4 @@ main.c
 a.out
 **~
 **.swp
+.*
