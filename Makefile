@@ -24,7 +24,7 @@ OBJ_DEST = objects
 ARCHIVE_DEST = archives
 HEADER_DEST = headers
 
-CFLAGS = -Wall -Werror -Wextra -I $(HEADER_DEST) -I $(HDR_INCL)
+CFLAGS = -Wall -Werror -Wextra -I $(HEADER_DEST)
 
 OBJS = $(SRCS:srcs/%.c=objects/%.o)
 
